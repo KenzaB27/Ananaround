@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="style/style.css">
+    <link  href="favicon.ico" type="image/x-icon">
+
+    <title>Ananaround - Result</title>
+</head>
+<body vocab="http://Ananaround.org/" class="text-center" onload="dessertOnLoad()">
+
+    <div class="w-100 h-100" id="overlay">
+        <div class="spinner-border w-10 m-auto" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div typeof="dessert" class="cover-container d-flex w-400 h-100 p-3 mx-auto flex-column" id="container">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <a href="index.html">
+                    <h3 class="masthead-brand">Ananaround</h3>
+                </a>                <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="index.html">Search</a>
+                <a class="nav-link" href="about.html">About</a>
+            </nav>
+            </div>
+        </header>
+        
+        <main role="main" class="inner cover justify-content-center">
+            
+            <div class="card w-100" style="margin-bottom: 2rem; margin-top:4rem">
+                <img property="image" id = "img-food" src="" class="card-img-top w-25 mr-auto ml-auto" style="margin-top: 3rem;" alt="This is a image">
+                <div class="card-body">
+                    <h5 property="name" class="card-title" id="name-food"></h5>
+                    <h6 property="country"><a id="country-name" href="index.html?query=France">Country</a></h6>
+                    <p property="description" class="card-text" id="description">
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">All informations are from Wikipedia.</small>
+                </div>
+            </div>
+            
+
+            <div id="ingredients-display" class="w-100 d-flex justify-content-around">
+                <div class="card w-45 h-100">
+                    <div class="card-body pb-1">
+                        <h5 class="card-title">Ingredients</h5>
+                    </div>
+                    <ul property="ingredients" typeof="ingredients" class="list-group" id="ingredients">
+                        <script id="ingredient-template" type="text/x-handlebars-template">
+                            <li property="ingredientName" name={{id}} class="list-group-item link-ingredient" data-toggle="tooltip" title="" data-original-title="{{description}}" onclick="printIngredientsDetails(this.getAttribute('name'))">{{name_ingredient}}</li>
+                        </script>
+                    </ul>
+                </div>
+
+                <div id="ingredient-details" class="w-50" style="display: none;">
+                        <script id="ingredient-description-template" type="text/x-handlebars-template">
+                            <a href={{url}}>
+                                <div class="card details-ingredient" style="display: none;" id={{id}}>
+                                    <img class="card-img-top mw-30 responsive-img" src={{img}} alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{name_ingredient}}</h5>
+                                        <p class="card-text" id="suggestion-description">{{description}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted" ><a href={{url}}>Click here to discover dessert using <b> {{name_ingredient}} </b></a></small>
+                                    </div>
+                                </div>
+                            </a>
+                        </script>
+                </div>
+            </div>
+        </main>
+        <hr>
+        <h3 class="mb-5">Suggestions</h3>
+        <div id="accordion" property="suggestions" typeof="suggestions">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Desserts with the same ingredients
+                        </button>
+                    </h5>
+                    </div>
+                
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body d-flex justify-content-around ">
+                        <div class="card-deck suggestions" id="suggestion-ingredient">
+
+                            <script id="suggestion-ingredient-template" type="text/x-handlebars-template">
+                                <a property="sameIngredients" typeof="sameIngredients" href={{link_dessert}} >
+                                    <div class="card suggestion" style="overflow: hidden;">
+                                        <img property="image" class="card-img-top mw-30 responsive-img" src={{img_dessert}} alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 property="name" class="card-title">{{name_dessert}}</h5>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small property="commonIngredients" class="text-muted"><span class="font-weight-bold">{{description_dessert}}</span> ingredients in common</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </script>
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Desserts from the same country
+                        </button>
+                    </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="card-deck suggestions" id="suggestion-country">
+
+                            <script id="suggestion-country-template" type="text/x-handlebars-template">
+                                <a  property="sameCountry" typeof="sameCountry" href={{link_dessert}}>
+                                    <div class="card suggestion" >
+                                        <img property="image" class="card-img-top responsive-img" src={{img_dessert}} alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 property="name" class="card-title">{{name_dessert}}</h5>
+                                        </div>
+                                        <div class="card-footer">
+                                        <small class="text-muted">Dessert from <span property="country" class="font-weight-bold">{{description_dessert}}</span></small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </script>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Desserts you might also like ❤
+                        </button>
+                    </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="card-deck suggestions d-inline-flex" id="suggestion-dessert">
+
+                            <script id="suggestion-dessert-template" type="text/x-handlebars-template">
+                                <a  property="sameCategory" typeof="sameCategory" href={{link_dessert}} >
+                                    <div class="card suggestion">
+                                        <img property="image" class="card-img-top responsive-img" src={{img_dessert}} alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 property="name" class="card-title">{{name_dessert}}</h5>
+                                        </div>
+                                        <div class="card-footer">
+                                        <small class="text-muted"><span property="commonCategories" class="font-weight-bold">{{description_dessert}}</span> categories in common</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </script>
+                            
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+        
+        <footer class="mastfoot mt-auto">
+            <br><br>
+            <div class="h-25">
+                All informations are from Wikipedia.
+            </div>
+            <br>
+        </footer>
+    </div>
+    
+    
+    <!-- Global Javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script> 
+    
+    
+    <!-- Custom JS -->
+    <script src="script/search_attributes.js"></script>
+    <script src="script/controler.js"></script>
+    <script src="script/searchSimilar.js"></script>
+    <script>
+
+        // Initialize the ingredients descrptions
+        $( document ).ready(function() {
+            // $(function () {
+            //     $('[data-toggle="tooltip"]').tooltip()
+            // })
+        });
+
+
+    </script>
+</body>
+</html>

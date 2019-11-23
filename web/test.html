@@ -1,0 +1,54 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="search_attributes.js" type="text/javascript"></script>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        
+    </body>
+</html>
+
+<script> 
+
+    $( document ).ready(function() {
+        /*console.log(searchAttributes("<http://dbpedia.org/resource/Pudding>", "dbo:thumbnail", function( _data ) {
+            var results = _data.results.bindings;
+            response = [];
+            for ( var i in results ) {
+                var res = results[i].res.value;
+                response.push(res);
+            }
+            console.log(response);
+        }));
+        
+        console.log(searchDessert("dbr:Butter", "dbo:ingredient", function( _data ) {
+            var results = _data.results.bindings;
+            response = [];
+            for ( var i in results ) {
+                var res = results[i].res.value;
+                response.push(res);
+            }
+            console.log(response);
+        }));*/
+
+        minInfos = getMinInfos('http://dbpedia.org/resource/Tiramisu'); 
+        console.log(minInfos);
+
+        fullInfos = getFullInfos('http://dbpedia.org/resource/Tiramisu');
+        console.log(fullInfos);
+
+        dessertFromCountry = getDessertFromCountry('http://dbpedia.org/resource/Italy')
+        console.log(dessertFromCountry); 
+        
+        //console.log(getIngredientsDetails('http://dbpedia.org/resource/Whipped_cream'))
+
+        console.log(getDessertFromIngredient('http://dbpedia.org/resource/Whipped_cream'))
+        
+    });
+</script>
+    
+

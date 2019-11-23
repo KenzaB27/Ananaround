@@ -1,0 +1,18 @@
+{
+        url: 'http://model.dbpedia-spotlight.org/en/candidates',
+        method: 'GET',
+        contentType: "application/json",
+        data: {
+            text: research,
+            confidence: 0,
+            support:20,
+            sparql: 
+                `PREFIX dct:<http://purl.org/dc/terms/>
+                PREFIX dbo: <http://dbpedia.org/resource/ontology/>
+                PREFIX dbr: <http://dbpedia.org/resource/>
+                SELECT DISTINCT ?response WHERE(
+                    ?response dbo:type dbr:Dessert.
+                )`,
+            policy:'whitelist'
+        }
+    }
